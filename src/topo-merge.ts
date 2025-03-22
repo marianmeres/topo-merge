@@ -4,14 +4,23 @@ import { omit } from "@std/collections";
 import { deepMerge, type DeepMergeOptions } from "@std/collections/deep-merge";
 import { _extends_to_parents, _record_to_id_prop } from "./_utils.ts";
 
+/**
+ *
+ */
 export interface WithExtends extends Record<string, any> {
 	__extends?: string[];
 }
 
+/**
+ *
+ */
 export interface Extended extends WithExtends {
 	id: string;
 }
 
+/**
+ * Node type required for `topoSort`
+ */
 export interface InheritedNode extends Record<string, any> {
 	id: string;
 	__parents?: InheritedNode[];
