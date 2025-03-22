@@ -13,7 +13,8 @@ export function _extends_to_parents(nodes: Extended[]): InheritedNode[] {
 
 		const parents = new Set<InheritedNode>();
 
-		let __extends = (
+		// normalize
+		const __extends = (
 			typeof node.__extends === "string"
 				? [node.__extends]
 				: node.__extends || []

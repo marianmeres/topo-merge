@@ -8,7 +8,7 @@ import { _extends_to_parents, _record_to_id_prop } from "./_utils.ts";
  *
  */
 export interface WithExtends extends Record<string, any> {
-	__extends?: string[];
+	__extends?: string | string[];
 }
 
 /**
