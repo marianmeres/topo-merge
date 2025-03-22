@@ -17,12 +17,7 @@ export interface InheritedNode extends Record<string, any> {
 }
 
 /**
- * Will sort the provided nodes based on their inheritance (dependency) hierarchy.
- *
- * The sorting happens it these two main steps:
- * 1. we process each node only once
- * 2. we always start with parents of the current node (and recurse into their parents...)
- * So, we effectively sort from the deepest parent(s) to self...
+ * Will topologically sort the provided nodes based on their inheritance (dependency) hierarchy.
  */
 export function topoSort(nodes: InheritedNode[]): InheritedNode[] {
 	const result: InheritedNode[] = [];
@@ -67,7 +62,9 @@ export function topoSort(nodes: InheritedNode[]): InheritedNode[] {
 	return result;
 }
 
-/** Main API - will topologically sort and recursively merge. */
+/**
+ * Main API - will topologically sort dependencies and recursively merge (self last).
+ */
 export function topoMerge(
 	recordOrEntries: Record<string, WithExtends> | [string, WithExtends][],
 	mergeOptions?: DeepMergeOptions,
