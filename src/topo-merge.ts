@@ -2,6 +2,7 @@
 
 import { omit } from "@std/collections";
 import { deepMerge, type DeepMergeOptions } from "@std/collections/deep-merge";
+import { _extends_to_parents, _record_to_id_prop } from "./_utils.ts";
 
 export interface WithExtends extends Record<string, any> {
 	__extends?: string[];
@@ -17,7 +18,7 @@ export interface InheritedNode extends Record<string, any> {
 }
 
 /**
- * Will topologically sort the provided nodes based on their inheritance (dependency) hierarchy.
+ * Will topologically sort the provided nodes based on their dependency hierarchy.
  */
 export function topoSort(nodes: InheritedNode[]): InheritedNode[] {
 	const result: InheritedNode[] = [];
@@ -77,7 +78,7 @@ export function topoMerge(
 	const result: Record<string, Record<string, any>> = {};
 	const omitKeys = ["__parents", mergeOmitIdProp ? "id" : ""].filter(Boolean);
 
-	// arrays are replaced by default (not merged)
+	// Arrays are replaced by default (not merged)
 	mergeOptions ??= {};
 	mergeOptions.arrays ??= "replace";
 
@@ -92,7 +93,7 @@ export function topoMerge(
 			result[node.id] = deepMerge(
 				omit(parent, omitKeys),
 				deepMerge(result[parent.id] || {}, result[node.id], {
-					// always need to replace in this "inner" merge
+					// Always need to replace in this "inner" merge
 					arrays: "replace",
 					sets: "replace",
 					maps: "replace",
@@ -106,57 +107,4 @@ export function topoMerge(
 	sorted.forEach((node) => process(node));
 
 	return result;
-}
-
-/** Internal helper - will convert the Entended[] to Inherited[], so it's suitable for topo-sorting. */
-export function _extends_to_parents(nodes: Extended[]): InheritedNode[] {
-	const lookup = new Map<string, Extended>();
-	const seen = new Set<InheritedNode>();
-	const result = new Set<InheritedNode>();
-
-	function process(node: Extended, _depth = 0) {
-		// console.log("    ".repeat(_depth), "processing", node.id, "extends", node.extends);
-
-		if (seen.has(node)) {
-			return node;
-		}
-
-		const parents = new Set<InheritedNode>();
-		(node.__extends || []).forEach((id) => {
-			if (node.id === id) throw new Error(`Cannot extend self ("${id}")`);
-			if (!lookup.has(id)) throw new Error(`Node "${id}" not found`);
-			parents.add(process(lookup.get(id)!, _depth + 1));
-		});
-
-		node.__parents = [...parents];
-		delete node.__extends;
-
-		seen.add(node);
-		return node;
-	}
-
-	// Create a flat lookup table first
-	nodes.forEach((node) => lookup.set(node.id, node));
-
-	// Process all nodes
-	nodes.forEach((node) => result.add(process(node)));
-
-	return [...result];
-}
-
-/** Internal helper - will just convert top level object keys as `id` prop of it's value */
-export function _record_to_id_prop(
-	obj: Record<string, WithExtends>
-): InheritedNode[] {
-	const entries = Object.entries(obj).reduce((m, [id, v]) => {
-		if (v.id && v.id !== id) {
-			throw new Error(
-				`Record's value already contains id prop "${v.id}" which is different from "${id}"`
-			);
-		}
-		m.push({ id, ...v });
-		return m;
-	}, [] as InheritedNode[]);
-
-	return entries;
 }

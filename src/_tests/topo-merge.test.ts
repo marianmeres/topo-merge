@@ -2,7 +2,7 @@
 
 import { assert, assertEquals, assertThrows } from "@std/assert";
 import { topoSort, topoMerge } from "../mod.ts";
-import { _extends_to_parents } from "../topo-merge.ts";
+import { _extends_to_parents } from "../_utils.ts";
 
 Deno.test("topoSort works", () => {
 	const a = { id: "a" };

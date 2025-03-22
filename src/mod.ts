@@ -1,1 +1,1 @@
-export { topoMerge, topoSort } from "./topo-merge.ts";
+export * from "./topo-merge.ts";
