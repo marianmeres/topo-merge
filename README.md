@@ -50,8 +50,8 @@ import { topoMerge } from "@marianmeres/topo-merge";
 // takes one required argument "schema", which can be a Record or entries (see above)
 const merged = topoMerge(
     schema: Record<string, WithExtends> | [string, WithExtends][],
-	mergeOptions?: DeepMergeOptions
+    mergeOptions?: DeepMergeOptions
 )
 ```
 
-See [DeepMergeOptions](https://jsr.io/@std/collections@1.0.10/doc/~/deepMerge).
+See [DeepMergeOptions](https://jsr.io/@std/collections@1.0.10/doc/~/DeepMergeOptions).
