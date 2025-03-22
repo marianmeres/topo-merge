@@ -12,7 +12,14 @@ export function _extends_to_parents(nodes: Extended[]): InheritedNode[] {
 		}
 
 		const parents = new Set<InheritedNode>();
-		(node.__extends || []).forEach((id) => {
+
+		let __extends = (
+			typeof node.__extends === "string"
+				? [node.__extends]
+				: node.__extends || []
+		).filter(Boolean);
+
+		__extends.forEach((id) => {
 			if (node.id === id) throw new Error(`Cannot extend self ("${id}")`);
 			if (!lookup.has(id)) throw new Error(`Node "${id}" not found`);
 			parents.add(process(lookup.get(id)!, _depth + 1));
