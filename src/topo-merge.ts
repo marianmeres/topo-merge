@@ -73,7 +73,7 @@ export function topoSort(nodes: InheritedNode[]): InheritedNode[] {
 }
 
 /**
- * Main API - will topologically sort dependencies and recursively merge (self last).
+ * Main API - will topologically sort dependencies and recursively deep merge (self last).
  */
 export function topoMerge(
 	recordOrEntries: Record<string, WithExtends> | [string, WithExtends][],
