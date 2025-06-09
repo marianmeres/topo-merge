@@ -83,6 +83,22 @@ Deno.test("topoMerge self prop is merged over extended", () => {
 	});
 });
 
+Deno.test("topoMerge self prop explicitly undefined", () => {
+	const schema = {
+		a: { foo: { bar: "baz" } },
+		b: { foo: { hey: "ho" } },
+		c: { __extends: ["b", "a"], foo: undefined }, // "foo" must be undef in the output
+	};
+
+	const merged = topoMerge(schema);
+
+	assertEquals(merged, {
+		a: { foo: { bar: "baz" } },
+		b: { foo: { hey: "ho" } },
+		c: { foo: undefined },
+	});
+});
+
 Deno.test("topoMerge arrays are replaced by default", () => {
 	const schema = {
 		a: { arr: [1, 2] },
