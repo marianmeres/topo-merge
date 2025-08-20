@@ -1,5 +1,3 @@
-// deno-lint-ignore-file no-explicit-any
-
 import { assert, assertEquals, assertThrows } from "@std/assert";
 import { topoSort, topoMerge } from "../mod.ts";
 import { _extends_to_parents } from "../_utils.ts";
