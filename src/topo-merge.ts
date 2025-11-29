@@ -1,5 +1,4 @@
-import { omit } from "@std/collections";
-import { deepMerge, type DeepMergeOptions } from "@std/collections/deep-merge";
+import { omit, deepMerge, type DeepMergeOptions } from "@std/collections";
 import { _extends_to_parents, _record_to_id_prop } from "./_utils.ts";
 
 /**

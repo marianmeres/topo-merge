@@ -28,16 +28,12 @@ into this:
 
 ## Installation
 
-deno
-
 ```sh
 deno add jsr:@marianmeres/topo-merge
 ```
 
-nodejs
-
 ```sh
-npx jsr add @marianmeres/topo-merge
+npm i @marianmeres/topo-merge
 ```
 
 ## Usage
