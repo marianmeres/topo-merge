@@ -7,4 +7,5 @@ await npmBuild({
 	version: denoJson.version,
 	repository: denoJson.name.replace(/^@/, ""),
 	dependencies: [],
+	jsrDependencies: ["@std/collections"],
 });
