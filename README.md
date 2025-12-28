@@ -1,5 +1,9 @@
 # @marianmeres/topo-merge
 
+[![JSR](https://jsr.io/badges/@marianmeres/topo-merge)](https://jsr.io/@marianmeres/topo-merge)
+[![npm](https://img.shields.io/npm/v/@marianmeres/topo-merge)](https://www.npmjs.com/package/@marianmeres/topo-merge)
+[![license](https://img.shields.io/github/license/marianmeres/topo-merge)](https://github.com/marianmeres/topo-merge/blob/master/LICENSE)
+
 Multiple inheritance for POJOs via topological sort and deep merge.
 
 ## Installation
@@ -47,50 +51,21 @@ function topoMerge(
 ): Record<string, Record<string, any>>
 ```
 
-**Parameters:**
-
-- `schema` - Object or entries array where keys become node IDs. Each value can have an optional `__extends` property (string or string array) referencing parent IDs.
-- `mergeOptions` - Options for [`deepMerge`](https://jsr.io/@std/collections/doc/~/deepMerge). Default: `{ arrays: "replace" }`.
-- `mergeOmitIdProp` - Whether to exclude the `id` property from results. Default: `true`.
-
-**Throws:**
-
-- Circular dependency detected
-- Self-reference (`__extends` pointing to itself)
-- Missing parent reference
+- `schema` - Object or entries array where keys become node IDs
+- `mergeOptions` - Options for [`deepMerge`](https://jsr.io/@std/collections/doc/~/deepMerge). Default: `{ arrays: "replace" }`
+- `mergeOmitIdProp` - Whether to exclude the `id` property from results. Default: `true`
 
 ### `topoSort(nodes)`
 
 Lower-level utility for topological sorting. Most users should use `topoMerge` instead.
-
-```ts
-function topoSort(nodes: InheritedNode[]): InheritedNode[]
-```
 
 ## Merge Behavior
 
 - **Child overrides parent** - Properties defined on a node override inherited ones
 - **Arrays are replaced** - By default, arrays replace rather than concatenate (configurable via `mergeOptions.arrays`)
 - **Deep merge** - Nested objects are recursively merged
-- **Explicit `undefined`** - Set a property to `undefined` to remove an inherited value:
+- **Explicit `undefined`** - Set a property to `undefined` to remove an inherited value
 
-```js
-const result = topoMerge({
-    base: { foo: 1, bar: 2 },
-    child: { __extends: "base", foo: undefined }
-});
-// child: { bar: 2 }  (foo is removed)
-```
+## Full API Documentation
 
-## Types
-
-```ts
-interface WithExtends extends Record<string, any> {
-    __extends?: string | string[];
-}
-
-interface InheritedNode extends Record<string, any> {
-    id: string;
-    __parents?: InheritedNode[];
-}
-```
+See [API.md](./API.md) for complete API reference including all interfaces, error handling, and detailed examples.
